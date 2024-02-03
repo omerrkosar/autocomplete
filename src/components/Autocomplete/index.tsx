@@ -171,14 +171,14 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       inputRef.current.blur();
       setShowOptions(false);
       handleRemoveClassNames();
-    } else if (e.key === 'ArrowRight') {
+    } else if (e.key === 'ArrowRight' && !searchTerm) {
       removeChipClass();
       if (selectedChipIndex < selectedOptions.length - 1) {
         addChipClass(selectedChipIndex + 1);
       } else {
         setSelectedChipIndex(-1);
       }
-    } else if (e.key === 'ArrowLeft') {
+    } else if (e.key === 'ArrowLeft' && !searchTerm) {
       removeChipClass();
       if (selectedChipIndex > 0) {
         addChipClass(selectedChipIndex - 1);
