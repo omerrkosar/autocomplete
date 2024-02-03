@@ -67,3 +67,8 @@
 .results>div:hover{
     background-color: #efefef;
 }
+
+.resultTextContainer{
+    display: flex;
+}
+

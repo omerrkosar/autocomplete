@@ -1,31 +1,36 @@
-import React,{useState,useCallback} from 'react';
-import AutoComplete from './components/Autocomplete'
-import {getResult} from './apollo';
-interface Result {
-  label:string;
-  value:string;
-}
+import React, { useState, useCallback } from 'react';
+import AutoComplete from './components/Autocomplete';
+type Result = {
+  label: string;
+  value: string;
+  image: string;
+  episodeCount: number;
+};
 
 function App() {
-  const [searchResults,setSearchResults] = useState<Result[]>([]);
-  const [loading,setLoading] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<Result[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const getSearchResults = useCallback((searchTerm:string)=>{
+  const getSearchResults = useCallback((searchTerm: string) => {
     setLoading(true);
-    getResult(`query { characters(page: 1, filter: { name: "${searchTerm}" }) {info {count}results {name}}location(id: 1) { id}episodesByIds(ids: [1, 2]) {id}}`)
-    .then((res:any)=>{
-      setLoading(false);
-      console.log(res.data.characters.results);
-      setSearchResults(res.data.characters.results.map((item:any)=>{
-        return {value:item.name,label:item.name};
-      }))
-    })
-  },[])
-
+    fetch(`https://rickandmortyapi.com/api/character?name=${searchTerm}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setSearchResults([]);
+        } else {
+          setSearchResults(
+            data.results.map((item: any) => {
+              return { value: item.id, label: item.name, image: item.image, episodeCount: item.episode.length };
+            })
+          );
+        }
+      });
+  }, []);
 
   return (
     <div>
-      <AutoComplete searchResults={searchResults} getSearchResults={getSearchResults} loading={loading}/>
+      <AutoComplete searchResults={searchResults} getSearchResults={getSearchResults} loading={loading} />
     </div>
   );
 }
