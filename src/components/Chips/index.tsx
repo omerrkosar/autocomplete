@@ -10,7 +10,7 @@ type ChipsProps = {
   loading?: boolean;
   onFocus?: () => void;
   chips: OptionType[];
-  deleteItem: (value: OptionType) => void;
+  unselectOption: (value: OptionType) => void;
   searchTerm: string;
   onChange: (searchTerm: string) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -24,7 +24,7 @@ const Chips = forwardRef<FC, ChipsProps>(
       searchTerm,
       onChange,
       onKeyDown,
-      deleteItem,
+      unselectOption,
       chips,
       chipsRef,
       placeholder = '',
@@ -51,7 +51,7 @@ const Chips = forwardRef<FC, ChipsProps>(
               {chips.map((chip, index) => (
                 <div key={index} className={styles.chip}>
                   <p className={styles.chipsText}>{chip.label}</p>
-                  <button className={styles.deleteButton} onClick={() => deleteItem(chip)}>
+                  <button className={styles.deleteButton} onClick={() => unselectOption(chip)}>
                     X
                   </button>
                 </div>

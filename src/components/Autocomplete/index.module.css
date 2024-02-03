@@ -35,3 +35,25 @@
 .chipSelected {
   background-color: #ccc !important;
 }
+
+.errorMessage {
+  margin-top: 0;
+  color: #f24444;
+  font-size: 12px;
+  display: inline-flex;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  padding: 2px;
+  background: #fff;
+  border: 1px solid #f24444;
+  color: #f24444;
+  text-align: center;
+  font-size: 12px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}

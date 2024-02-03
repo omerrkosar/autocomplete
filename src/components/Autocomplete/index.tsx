@@ -44,19 +44,19 @@ const AutoComplete: FC<AutoCompleteProps> = ({
     }
   };
 
-  const deleteItem = (option: OptionType) => {
+  const unselectOption = (option: OptionType) => {
     setSelectedOptions((state) => state.filter((item) => item.value !== option.value));
   };
 
-  const selectItem = (option: OptionType) => {
+  const selectOption = (option: OptionType) => {
     setSelectedOptions((state) => [...state.filter((item) => item.value !== option.value), option]);
   };
 
   const onClickCheckBox = (checked: boolean, option: OptionType) => {
     if (checked) {
-      selectItem(option);
+      selectOption(option);
     } else {
-      deleteItem(option);
+      unselectOption(option);
     }
   };
 
@@ -186,7 +186,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         searchTerm={searchTerm}
         onChange={setSearchTerm}
         ref={inputRef}
-        deleteItem={deleteItem}
+        unselectOption={unselectOption}
         chips={selectedOptions}
         onFocus={() => setShowOptions(true)}
         loading={loading}
@@ -208,6 +208,12 @@ const AutoComplete: FC<AutoCompleteProps> = ({
           ))}
         </div>
       )}
+      {errorMessage ? (
+        <>
+          <div className={styles.circle}>!</div>
+          <p className={styles.errorMessage}>{errorMessage}</p>
+        </>
+      ) : null}
     </div>
   );
 };
