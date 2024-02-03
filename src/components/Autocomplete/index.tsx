@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import type { FC, ReactNode } from 'react';
-import useDebounce from 'src/hooks/useDebounce';
+import useDebounce from '../../hooks/useDebounce';
 import styles from './index.module.css';
-import Chips from 'src/components/Chips';
-import Option from 'src/components/Option';
+import Chips from '../Chips';
+import Option from '../Option';
 import { OptionType } from 'src/types';
-import Chip from 'src/components/Chip';
+import Chip from '../Chip';
 type AutoCompleteProps = {
   disabled?: boolean;
   loading?: boolean;
@@ -16,6 +16,7 @@ type AutoCompleteProps = {
   selectedOptions: OptionType[];
   onSelect: (option: OptionType, checked: boolean) => void;
   renderChips?: (chips: OptionType[]) => ReactNode;
+  renderOptions?: (chips: OptionType[]) => ReactNode;
 };
 
 const AutoComplete: FC<AutoCompleteProps> = ({
@@ -28,6 +29,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   onSelect,
   selectedOptions,
   renderChips,
+  renderOptions,
 }) => {
   const fieldRef = useRef<HTMLDivElement | null>(null);
   const [showOptions, setShowOptions] = useState<boolean>(false);
@@ -42,6 +44,32 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   const defaultRenderChips = useCallback(
     (chips: OptionType[]) => {
       return chips.map((chip, index) => <Chip key={index} chip={chip} unselectOption={() => onSelect(chip, false)} />);
+    },
+    [onSelect]
+  );
+
+  const defaultRenderOptions = useCallback(
+    (options: OptionType[]) => {
+      return options.map((option, index) => {
+        const indexOfSearchTerm = option.label.toLowerCase().indexOf(debouncedText.toLowerCase());
+
+        const label = (
+          <p className={styles.label}>
+            {option.label.substring(0, indexOfSearchTerm)}
+            <b>{option.label.substring(indexOfSearchTerm, indexOfSearchTerm + debouncedText.length)}</b>
+            {option.label.substring(indexOfSearchTerm + debouncedText.length, option.label.length)}
+          </p>
+        );
+        return (
+          <Option
+            key={index}
+            option={option}
+            label={label}
+            checked={!!selectedOptions.find((item) => item.value === option.value)}
+            onClick={(checked) => onSelect(option, checked)}
+          />
+        );
+      });
     },
     [onSelect]
   );
@@ -194,15 +222,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       />
       {options.length !== 0 && showOptions && (
         <div ref={optionsRef} className={styles.options}>
-          {options.map((option, index) => (
-            <Option
-              key={index}
-              option={option}
-              checked={!!selectedOptions.find((item) => item.value === option.value)}
-              onClick={(checked) => onSelect(option, checked)}
-              searchTerm={searchTerm}
-            />
-          ))}
+          {renderOptions ? renderOptions(options) : defaultRenderOptions(options)}
         </div>
       )}
       {errorMessage ? (

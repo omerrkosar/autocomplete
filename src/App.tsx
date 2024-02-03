@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import AutoComplete from 'src/components/Autocomplete';
-import { OptionType } from 'src/types';
+import AutoComplete from './components/Autocomplete';
+import { OptionType } from './types';
 
 function App() {
   const [options, setOptions] = useState<OptionType[]>([]);
