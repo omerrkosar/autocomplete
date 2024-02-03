@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import type { FC } from 'react';
-import useDebounce from '../../hooks/useDebounce';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import type { FC, ReactNode } from 'react';
+import useDebounce from 'src/hooks/useDebounce';
 import styles from './index.module.css';
-import Chips from '../Chips';
-import Option from '../Option';
-import { OptionType } from '../../types';
+import Chips from 'src/components/Chips';
+import Option from 'src/components/Option';
+import { OptionType } from 'src/types';
+import Chip from 'src/components/Chip';
 type AutoCompleteProps = {
   disabled?: boolean;
   loading?: boolean;
@@ -12,6 +13,9 @@ type AutoCompleteProps = {
   options: OptionType[];
   style: React.CSSProperties;
   errorMessage: string;
+  selectedOptions: OptionType[];
+  onSelect: (option: OptionType, checked: boolean) => void;
+  renderChips?: (chips: OptionType[]) => ReactNode;
 };
 
 const AutoComplete: FC<AutoCompleteProps> = ({
@@ -21,17 +25,26 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   disabled = false,
   loading = false,
   errorMessage = '',
+  onSelect,
+  selectedOptions,
+  renderChips,
 }) => {
   const fieldRef = useRef<HTMLDivElement | null>(null);
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
   const debouncedText = useDebounce<string>(searchTerm, 250);
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [selectedChipIndex, setSelectedChipIndex] = useState<number>(-1);
   const [chipsElement, setChipsElement] = useState<HTMLDivElement | null>(null);
   const inputRef = useRef<any>(null);
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  const defaultRenderChips = useCallback(
+    (chips: OptionType[]) => {
+      return chips.map((chip, index) => <Chip key={index} chip={chip} unselectOption={() => onSelect(chip, false)} />);
+    },
+    [onSelect]
+  );
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -41,22 +54,6 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   const handleClickOutside = (event: any) => {
     if (fieldRef.current && !fieldRef.current.contains(event.target)) {
       setShowOptions(false);
-    }
-  };
-
-  const unselectOption = (option: OptionType) => {
-    setSelectedOptions((state) => state.filter((item) => item.value !== option.value));
-  };
-
-  const selectOption = (option: OptionType) => {
-    setSelectedOptions((state) => [...state.filter((item) => item.value !== option.value), option]);
-  };
-
-  const onClickCheckBox = (checked: boolean, option: OptionType) => {
-    if (checked) {
-      selectOption(option);
-    } else {
-      unselectOption(option);
     }
   };
 
@@ -110,17 +107,11 @@ const AutoComplete: FC<AutoCompleteProps> = ({
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && !searchTerm && selectedOptions.length && selectedChipIndex !== -1) {
-      const copySelectedOptions = [
-        ...selectedOptions.slice(0, selectedChipIndex),
-        ...selectedOptions.slice(selectedChipIndex + 1, selectedOptions.length),
-      ];
-      setSelectedOptions(copySelectedOptions);
+      onSelect(selectedOptions[selectedChipIndex], false);
       handleFocusChips();
       handleRemoveClassNames();
     } else if (e.key === 'Backspace' && !searchTerm && selectedOptions.length) {
-      const copySelectedOptions = [...selectedOptions];
-      copySelectedOptions.pop();
-      setSelectedOptions(copySelectedOptions);
+      onSelect(selectedOptions[selectedOptions.length - 1], false);
       handleFocusChips();
       handleRemoveClassNames();
     } else if (e.key === 'ArrowDown' || e.key === 'Tab') {
@@ -134,8 +125,10 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       removeOptionClass();
       if (selectedIndex > 0) {
         addOptionClass(selectedIndex - 1);
+      } else if (selectedIndex === -1) {
+        addOptionClass(options.length - 1);
       } else {
-        setSelectedIndex(options.length);
+        setSelectedIndex(-1);
       }
     } else if (e.key === 'Enter' && optionsRef.current) {
       const currentItem = selectedIndex !== -1 ? (optionsRef.current.children[selectedIndex] as HTMLElement) : null;
@@ -157,8 +150,10 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       removeChipClass();
       if (selectedChipIndex > 0) {
         addChipClass(selectedChipIndex - 1);
+      } else if (selectedChipIndex === -1) {
+        addChipClass(selectedOptions.length - 1);
       } else {
-        setSelectedChipIndex(selectedOptions.length);
+        setSelectedChipIndex(-1);
       }
     } else {
       handleRemoveClassNames();
@@ -186,7 +181,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         searchTerm={searchTerm}
         onChange={setSearchTerm}
         ref={inputRef}
-        unselectOption={unselectOption}
+        unselectOption={(option) => onSelect(option, false)}
         chips={selectedOptions}
         onFocus={() => setShowOptions(true)}
         loading={loading}
@@ -195,15 +190,16 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         chipsRef={setChipsElement}
         errorMessage={errorMessage}
         showOptions={showOptions}
+        renderChips={renderChips ? renderChips : defaultRenderChips}
       />
       {options.length !== 0 && showOptions && (
         <div ref={optionsRef} className={styles.options}>
           {options.map((option, index) => (
             <Option
               key={index}
-              {...option}
+              option={option}
               checked={!!selectedOptions.find((item) => item.value === option.value)}
-              onClick={(checked) => onClickCheckBox(checked, option)}
+              onClick={(checked) => onSelect(option, checked)}
               searchTerm={searchTerm}
             />
           ))}

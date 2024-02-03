@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import styles from './index.module.css';
+import { OptionType } from 'src/types';
+
 type OptionProps = {
-  label: string;
-  image: string;
-  episodeCount: number;
+  option: OptionType;
   checked: boolean;
   onClick: (checked: boolean) => void;
   searchTerm: string;
@@ -19,17 +19,8 @@ const getEpisodeLabel = (episodeCount: number) => {
   }
 };
 
-const Option: FC<OptionProps> = ({
-  label,
-  image,
-  episodeCount,
-  checked,
-  onClick,
-  searchTerm,
-  onMouseEnter,
-  onMouseLeave,
-}) => {
-  const indexOfSearchTerm = label.toLowerCase().indexOf(searchTerm.toLowerCase());
+const Option: FC<OptionProps> = ({ option, checked, onClick, searchTerm, onMouseEnter, onMouseLeave }) => {
+  const indexOfSearchTerm = option.label.toLowerCase().indexOf(searchTerm.toLowerCase());
 
   return (
     <div
@@ -39,16 +30,16 @@ const Option: FC<OptionProps> = ({
       onMouseLeave={onMouseLeave}
     >
       <input type="checkbox" checked={checked} onChange={(e) => onClick(e.target.checked)} />
-      <img className={styles.image} src={image} />
+      <img className={styles.image} src={option.image} />
       <div>
         <p className={styles.label}>
-          {label.substring(0, indexOfSearchTerm)}
-          <b>{label.substring(indexOfSearchTerm, indexOfSearchTerm + searchTerm.length)}</b>
-          {label.substring(indexOfSearchTerm + searchTerm.length, label.length)}
+          {option.label.substring(0, indexOfSearchTerm)}
+          <b>{option.label.substring(indexOfSearchTerm, indexOfSearchTerm + searchTerm.length)}</b>
+          {option.label.substring(indexOfSearchTerm + searchTerm.length, option.label.length)}
         </p>
 
         <p className={styles.episodeCount}>
-          {episodeCount} {getEpisodeLabel(episodeCount)}
+          {option.episodeCount} {getEpisodeLabel(option.episodeCount)}
         </p>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import React, { forwardRef, useRef } from 'react';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import styles from './index.module.css';
-import LoadingIcon from '../../icons/LoadingIcon';
-import { mergeRefs } from '../../utils';
-import { OptionType } from '../../types';
+import LoadingIcon from 'src/icons/LoadingIcon';
+import { mergeRefs } from 'src/utils';
+import { OptionType } from 'src/types';
 type ChipsProps = {
   placeholder?: string;
   disabled?: boolean;
@@ -17,6 +17,7 @@ type ChipsProps = {
   chipsRef: (state: HTMLDivElement) => void;
   errorMessage: string;
   showOptions: boolean;
+  renderChips: (chips: OptionType[]) => ReactNode;
 };
 
 const Chips = forwardRef<FC, ChipsProps>(
@@ -25,7 +26,6 @@ const Chips = forwardRef<FC, ChipsProps>(
       searchTerm,
       onChange,
       onKeyDown,
-      unselectOption,
       chips,
       chipsRef,
       placeholder = '',
@@ -34,6 +34,7 @@ const Chips = forwardRef<FC, ChipsProps>(
       loading = false,
       errorMessage = '',
       showOptions = false,
+      renderChips,
     },
     ref
   ) => {
@@ -49,16 +50,7 @@ const Chips = forwardRef<FC, ChipsProps>(
       <div className={styles.container}>
         <div className={styles.chipWrapper}>
           <div className={errorMessage ? styles.errorWrapper : styles.wrapper} onClick={handleFocus}>
-            <div ref={chipsRef}>
-              {chips.map((chip, index) => (
-                <div key={index} className={styles.chip}>
-                  <p className={styles.chipsText}>{chip.label}</p>
-                  <button className={styles.deleteButton} onClick={() => unselectOption(chip)}>
-                    X
-                  </button>
-                </div>
-              ))}
-            </div>
+            <div ref={chipsRef}>{renderChips(chips)}</div>
             <div className={styles.inputContainer}>
               <input
                 onFocus={onFocus}
