@@ -73,7 +73,7 @@ const Chips = forwardRef<FC, ChipsProps>(
               <LoadingIcon />
             </div>
           ) : !errorMessage ? (
-            <div className={showOptions ? styles.arrowDown : styles.arrowRight} />
+            <div className={showOptions ? styles.arrowDown : styles.arrowUp} />
           ) : null}
         </div>
       </div>

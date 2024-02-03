@@ -17,9 +17,11 @@ type AutoCompleteProps = {
   onSelect: (option: OptionType, checked: boolean) => void;
   renderChips?: (chips: OptionType[]) => ReactNode;
   renderOptions?: (chips: OptionType[]) => ReactNode;
+  className?: string;
 };
 
 const AutoComplete: FC<AutoCompleteProps> = ({
+  className = '',
   style,
   getSearchResults,
   options,
@@ -197,7 +199,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
 
   return (
     <div
-      className={styles.container}
+      className={`${styles.container} ${className}`}
       ref={fieldRef}
       onClick={handleFocusChips}
       style={style}
