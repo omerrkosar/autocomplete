@@ -58,6 +58,7 @@ function App() {
         loading={loading}
         onSelect={onSelect}
         selectedOptions={selectedOptions}
+        placeholder="Select..."
       />
     </div>
   );

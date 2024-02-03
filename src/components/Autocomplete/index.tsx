@@ -8,6 +8,7 @@ import { OptionType } from 'src/types';
 import Chip from '../Chip';
 type AutoCompleteProps = {
   disabled?: boolean;
+  placeholder?: string;
   loading?: boolean;
   getSearchResults: (searchTerm: string) => void;
   options: OptionType[];
@@ -22,6 +23,7 @@ type AutoCompleteProps = {
 
 const AutoComplete: FC<AutoCompleteProps> = ({
   className = '',
+  placeholder = '',
   style,
   getSearchResults,
   options,
@@ -220,6 +222,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         chipsRef={setChipsElement}
         errorMessage={errorMessage}
         showOptions={showOptions}
+        placeholder={placeholder}
         renderChips={renderChips ? renderChips : defaultRenderChips}
       />
       {options.length !== 0 && showOptions && (
