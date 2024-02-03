@@ -23,7 +23,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   errorMessage = '',
 }) => {
   const fieldRef = useRef<HTMLDivElement | null>(null);
-  const [showResults, setShowOptions] = useState<boolean>(false);
+  const [showOptions, setShowOptions] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
   const debouncedText = useDebounce<string>(searchTerm, 250);
@@ -194,8 +194,9 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         onKeyDown={onKeyDown}
         chipsRef={setChipsElement}
         errorMessage={errorMessage}
+        showOptions={showOptions}
       />
-      {options.length !== 0 && showResults && (
+      {options.length !== 0 && showOptions && (
         <div ref={optionsRef} className={styles.options}>
           {options.map((option, index) => (
             <Option

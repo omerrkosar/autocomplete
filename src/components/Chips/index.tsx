@@ -16,6 +16,7 @@ type ChipsProps = {
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   chipsRef: (state: HTMLDivElement) => void;
   errorMessage: string;
+  showOptions: boolean;
 };
 
 const Chips = forwardRef<FC, ChipsProps>(
@@ -32,6 +33,7 @@ const Chips = forwardRef<FC, ChipsProps>(
       disabled = false,
       loading = false,
       errorMessage = '',
+      showOptions = false,
     },
     ref
   ) => {
@@ -78,6 +80,8 @@ const Chips = forwardRef<FC, ChipsProps>(
             <div className={styles.iconLoading}>
               <LoadingIcon />
             </div>
+          ) : !errorMessage ? (
+            <div className={showOptions ? styles.arrowDown : styles.arrowRight} />
           ) : null}
         </div>
       </div>
