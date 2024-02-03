@@ -1,8 +1,8 @@
 .chipsText {
   font-family: serif;
-  color: #334155;
+  color: var(--dark-grey);
   font-weight: 300;
-  font-size: 14px;
+  font-size: var(--paragraph2-font-size);
   text-align: center;
   margin-left: 0.5rem;
 }
@@ -12,14 +12,14 @@
   justify-content: center;
   align-items: center;
 
-  background-color: #e2e8f0;
+  background-color: var(--chip-bg-color);
   height: 1.5rem;
   margin: 0.25rem;
   border-radius: 0.5rem;
 }
 
 .deleteButton {
-  background-color: #94a3b8;
+  background-color: var(--delete-button-color);
   margin: 0.25rem;
   border-radius: 0.25rem;
   width: 1rem;
@@ -27,7 +27,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #94a3b8;
+  border: 2px solid var(--delete-button-color);
   cursor: pointer;
-  color: #f8fafc;
+  color: var(--delete-text-color);
 }

@@ -3,14 +3,14 @@
   box-sizing: border-box;
   border-width: 0;
   border-style: solid;
-  border-color: #e5e7eb;
+  border-color: var(--border-color);
   position: relative;
 }
 .container > * {
   box-sizing: border-box;
   border-width: 0;
   border-style: solid;
-  border-color: #e5e7eb;
+  border-color: var(--border-color);
 }
 
 .options {
@@ -18,14 +18,13 @@
   left: 0;
   width: 100%;
   min-width: 300px;
-  border: 2px solid #dcdbe0;
-  font-size: 90%;
+  border: 2px solid var(--option-color);
   text-align: left;
   border-radius: 0.5rem;
   max-height: 300px;
   overflow: auto;
   z-index: 50;
-  background-color: white;
+  background-color: var(--white);
 }
 
 .keySelected {
@@ -33,13 +32,13 @@
 }
 
 .chipSelected {
-  background-color: #ccc !important;
+  background-color: var(--grey) !important;
 }
 
 .errorMessage {
   margin-top: 0;
-  color: #f24444;
-  font-size: 12px;
+  color: var(--red);
+  font-size: var(--paragraph3-font-size);
   display: inline-flex;
 }
 
@@ -49,10 +48,10 @@
   height: 14px;
   padding: 2px;
   background: #fff;
-  border: 1px solid #f24444;
-  color: #f24444;
+  border: 1px solid var(--red);
+  color: var(--red);
   text-align: center;
-  font-size: 12px;
+  font-size: var(--paragraph3-font-size);
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -60,9 +59,9 @@
 
 .label {
   font-family: serif;
-  color: #334155;
+  color: var(--dark-grey);
   font-weight: 500;
-  font-size: 14px;
+  font-size: var(--paragraph2-font-size);
   text-align: center;
   margin-bottom: 0.25rem;
 }

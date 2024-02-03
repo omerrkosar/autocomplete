@@ -1,0 +1,15 @@
+:root {
+  --paragraph2-font-size: 14px;
+  --paragraph3-font-size: 12px;
+  --hover-color: #efefef;
+  --episode-color: #6d7c92;
+  --red: #f24444;
+  --dark-grey: #334155;
+  --grey: #ccc;
+  --white: white;
+  --option-color: #dcdbe0;
+  --border-color: #e5e7eb;
+  --chip-bg-color: #e2e8f0;
+  --delete-button-color: #94a3b8;
+  --delete-text-color: #f8fafc;
+}

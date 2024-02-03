@@ -6,11 +6,11 @@
 }
 
 .option:hover {
-  background-color: #efefef;
+  background-color: var(--hover-color);
 }
 
 .option:not(:last-child) {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--grey);
 }
 
 .image {
@@ -21,6 +21,6 @@
 .episodeCount {
   margin-top: 0.25rem;
   font-weight: 500;
-  color: #6d7c92;
-  font-size: 12px;
+  color: var(--episode-color);
+  font-size: var(--paragraph3-font-size);
 }

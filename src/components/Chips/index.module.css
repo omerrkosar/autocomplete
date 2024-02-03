@@ -14,7 +14,7 @@
 
 .wrapper {
   display: flex;
-  border: 2px solid #dcdbe0;
+  border: 2px solid var(--option-color);
   border-radius: 0.5rem;
   width: 100%;
   margin-bottom: 0.5rem;
@@ -31,7 +31,7 @@
   width: 100%;
   margin-bottom: 0.5rem;
   padding-left: 0.5rem;
-  border: 2px solid #f24444 !important;
+  border: 2px solid var(--red) !important;
 }
 
 .inputContainer {
