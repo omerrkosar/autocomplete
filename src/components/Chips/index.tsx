@@ -3,27 +3,37 @@ import type { FC } from 'react';
 import styles from './index.module.css';
 import LoadingIcon from '../../icons/LoadingIcon';
 import { mergeRefs } from '../../utils';
+import { OptionType } from '../../types';
 
 type ChipsProps = {
   placeholder?: string;
   disabled?: boolean;
   loading?: boolean;
   onFocus?: () => void;
-  chips: Result[];
-  deleteItem: (value: Result) => void;
+  chips: OptionType[];
+  deleteItem: (value: OptionType) => void;
   searchTerm: string;
   onChange: (searchTerm: string) => void;
-};
-
-type Result = {
-  label: string;
-  value: string;
-  image: string;
-  episodeCount: number;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  chipsRef: (state: HTMLDivElement) => void;
 };
 
 const Chips = forwardRef<FC, ChipsProps>(
-  ({ searchTerm, onChange, deleteItem, chips, placeholder = '', onFocus, disabled = false, loading = false }, ref) => {
+  (
+    {
+      searchTerm,
+      onChange,
+      onKeyDown,
+      deleteItem,
+      chips,
+      chipsRef,
+      placeholder = '',
+      onFocus,
+      disabled = false,
+      loading = false,
+    },
+    ref
+  ) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const handleFocus = () => {
@@ -35,14 +45,16 @@ const Chips = forwardRef<FC, ChipsProps>(
     return (
       <div className={styles.container}>
         <div className={styles.chipWrapper}>
-          <ul className={styles.wrapper} onClick={handleFocus}>
+          <div ref={chipsRef} className={styles.wrapper} onClick={handleFocus}>
             {chips.map((chip, index) => (
-              <li key={index} className={styles.chip}>
-                <p>{chip.label}</p>
-                <p onClick={() => deleteItem(chip)}>x</p>
-              </li>
+              <div key={index} className={styles.chip}>
+                <p className={styles.chipsText}>{chip.label}</p>
+                <button className={styles.deleteButton} onClick={() => deleteItem(chip)}>
+                  X
+                </button>
+              </div>
             ))}
-            <li className={styles.inputContainer}>
+            <div className={styles.inputContainer}>
               <input
                 onFocus={onFocus}
                 type="text"
@@ -54,9 +66,10 @@ const Chips = forwardRef<FC, ChipsProps>(
                 disabled={disabled}
                 className={styles.input}
                 ref={mergeRefs(inputRef, ref)}
+                onKeyDown={onKeyDown}
               />
-            </li>
-          </ul>
+            </div>
+          </div>
           {loading && (
             <div className="iconLoading">
               <LoadingIcon />

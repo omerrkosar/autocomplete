@@ -1,74 +1,46 @@
-
-.container{
-    width: 100%;
-    box-sizing: border-box;
-    border-width: 0;
-    border-style: solid;
-    border-color: #e5e7eb;
-    position: relative;
+.container {
+  width: 100%;
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+  position: relative;
 }
-.container>*{
-    box-sizing: border-box;
-    border-width: 0;
-    border-style: solid;
-    border-color: #e5e7eb;
-}
-.field{
-    position: relative;
-    display: flex;
-	flex-wrap: wrap;
-	overflow: auto;
-	list-style: none;
-	cursor: text;
-	clear: left;
-	margin: 0;
+.container > * {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
 }
 
-
-
-.field>input{
-    width: 100%;
-    padding: 6px 10px;
-    padding-right: 30px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+.iconLoading {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 4px;
+  width: 20px;
+  height: 22px;
+  cursor: pointer;
+}
+.options {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  min-width: 300px;
+  border: 2px solid #dcdbe0;
+  font-size: 90%;
+  text-align: left;
+  border-radius: 0.5rem;
+  max-height: 300px;
+  overflow: auto;
+  z-index: 50;
+  background-color: white;
 }
 
-.iconLoading{
-    position: absolute;
-    top:50%;
-    transform: translateY(-50%);
-    right:4px;
-    width: 20px;
-    height: 22px;
-    cursor: pointer;
-}
-.results{
-    position: absolute;
-    left: 0;
-    width: 100%;
-    min-width: 300px;
-    box-shadow: 1px 1px 18px -6px #555;
-    font-size: 90%;
-    text-align: left;
-    border-radius: 3px;
-    max-height: 300px;
-    overflow: auto;
-    z-index: 50;
-    background-color: white;
-}
-.results>div{
-    padding:4px 8px;
-    cursor: pointer;
-}
-.results>div:not(:last-child){
-    border-bottom: 1px solid #ccc;
-}
-.results>div:hover{
-    background-color: #efefef;
+.keySelected {
+  background-color: #efefef;
 }
 
-.resultTextContainer{
-    display: flex;
+.chipSelected {
+  background-color: #ccc !important;
 }
-

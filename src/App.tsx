@@ -1,14 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import AutoComplete from './components/Autocomplete';
-type Result = {
-  label: string;
-  value: string;
-  image: string;
-  episodeCount: number;
-};
+import { OptionType } from './types';
 
 function App() {
-  const [searchResults, setSearchResults] = useState<Result[]>([]);
+  const [options, setOptions] = useState<OptionType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getSearchResults = useCallback((searchTerm: string) => {
@@ -17,9 +12,9 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          setSearchResults([]);
+          setOptions([]);
         } else {
-          setSearchResults(
+          setOptions(
             data.results.map((item: any) => {
               return { value: item.id, label: item.name, image: item.image, episodeCount: item.episode.length };
             })
@@ -30,7 +25,12 @@ function App() {
 
   return (
     <div>
-      <AutoComplete searchResults={searchResults} getSearchResults={getSearchResults} loading={loading} />
+      <AutoComplete
+        style={{ width: '80%', margin: '50px' }}
+        options={options}
+        getSearchResults={getSearchResults}
+        loading={loading}
+      />
     </div>
   );
 }
