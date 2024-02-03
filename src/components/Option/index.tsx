@@ -11,6 +11,14 @@ type OptionProps = {
   onMouseLeave?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
 
+const getEpisodeLabel = (episodeCount: number) => {
+  if (episodeCount === 1 || episodeCount === 0) {
+    return 'Episode';
+  } else {
+    return 'Episodes';
+  }
+};
+
 const Option: FC<OptionProps> = ({
   label,
   image,
@@ -39,7 +47,9 @@ const Option: FC<OptionProps> = ({
           {label.substring(indexOfSearchTerm + searchTerm.length, label.length)}
         </p>
 
-        <p className={styles.episodeCount}>{episodeCount} Episodes</p>
+        <p className={styles.episodeCount}>
+          {episodeCount} {getEpisodeLabel(episodeCount)}
+        </p>
       </div>
     </div>
   );
