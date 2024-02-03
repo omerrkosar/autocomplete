@@ -4,7 +4,6 @@ import styles from './index.module.css';
 import LoadingIcon from '../../icons/LoadingIcon';
 import { mergeRefs } from '../../utils';
 import { OptionType } from '../../types';
-
 type ChipsProps = {
   placeholder?: string;
   disabled?: boolean;
@@ -16,6 +15,7 @@ type ChipsProps = {
   onChange: (searchTerm: string) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   chipsRef: (state: HTMLDivElement) => void;
+  errorMessage: string;
 };
 
 const Chips = forwardRef<FC, ChipsProps>(
@@ -31,6 +31,7 @@ const Chips = forwardRef<FC, ChipsProps>(
       onFocus,
       disabled = false,
       loading = false,
+      errorMessage = '',
     },
     ref
   ) => {
@@ -45,15 +46,17 @@ const Chips = forwardRef<FC, ChipsProps>(
     return (
       <div className={styles.container}>
         <div className={styles.chipWrapper}>
-          <div ref={chipsRef} className={styles.wrapper} onClick={handleFocus}>
-            {chips.map((chip, index) => (
-              <div key={index} className={styles.chip}>
-                <p className={styles.chipsText}>{chip.label}</p>
-                <button className={styles.deleteButton} onClick={() => deleteItem(chip)}>
-                  X
-                </button>
-              </div>
-            ))}
+          <div className={errorMessage ? styles.errorWrapper : styles.wrapper} onClick={handleFocus}>
+            <div ref={chipsRef}>
+              {chips.map((chip, index) => (
+                <div key={index} className={styles.chip}>
+                  <p className={styles.chipsText}>{chip.label}</p>
+                  <button className={styles.deleteButton} onClick={() => deleteItem(chip)}>
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
             <div className={styles.inputContainer}>
               <input
                 onFocus={onFocus}
@@ -70,11 +73,12 @@ const Chips = forwardRef<FC, ChipsProps>(
               />
             </div>
           </div>
-          {loading && (
-            <div className="iconLoading">
+
+          {loading ? (
+            <div className={styles.iconLoading}>
               <LoadingIcon />
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     );

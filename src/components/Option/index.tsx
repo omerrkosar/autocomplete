@@ -22,6 +22,7 @@ const Option: FC<OptionProps> = ({
   onMouseLeave,
 }) => {
   const indexOfSearchTerm = label.toLowerCase().indexOf(searchTerm.toLowerCase());
+
   return (
     <div
       className={styles.option}

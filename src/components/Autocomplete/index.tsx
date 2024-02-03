@@ -10,7 +10,8 @@ type AutoCompleteProps = {
   loading?: boolean;
   getSearchResults: (searchTerm: string) => void;
   options: OptionType[];
-  style: any;
+  style: React.CSSProperties;
+  errorMessage: string;
 };
 
 const AutoComplete: FC<AutoCompleteProps> = ({
@@ -19,9 +20,10 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   options,
   disabled = false,
   loading = false,
+  errorMessage = '',
 }) => {
   const fieldRef = useRef<HTMLDivElement | null>(null);
-  const [showResults, setShowResults] = useState<boolean>(false);
+  const [showResults, setShowOptions] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
   const debouncedText = useDebounce<string>(searchTerm, 250);
@@ -38,7 +40,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
 
   const handleClickOutside = (event: any) => {
     if (fieldRef.current && !fieldRef.current.contains(event.target)) {
-      setShowResults(false);
+      setShowOptions(false);
     }
   };
 
@@ -114,16 +116,14 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       ];
       setSelectedOptions(copySelectedOptions);
       handleFocusChips();
-      removeOptionClass();
-      removeChipClass();
+      handleRemoveClassNames();
     } else if (e.key === 'Backspace' && !searchTerm && selectedOptions.length) {
       const copySelectedOptions = [...selectedOptions];
       copySelectedOptions.pop();
       setSelectedOptions(copySelectedOptions);
       handleFocusChips();
-      removeOptionClass();
-      removeChipClass();
-    } else if (e.key === 'ArrowDown') {
+      handleRemoveClassNames();
+    } else if (e.key === 'ArrowDown' || e.key === 'Tab') {
       removeOptionClass();
       if (selectedIndex < options.length - 1) {
         addOptionClass(selectedIndex + 1);
@@ -140,12 +140,12 @@ const AutoComplete: FC<AutoCompleteProps> = ({
     } else if (e.key === 'Enter' && optionsRef.current) {
       const currentItem = selectedIndex !== -1 ? (optionsRef.current.children[selectedIndex] as HTMLElement) : null;
       if (currentItem) {
-        currentItem.classList.remove(styles.keySelected);
         currentItem.click();
       }
     } else if (e.key === 'Escape' && inputRef.current) {
       inputRef.current.blur();
-      setShowResults(false);
+      setShowOptions(false);
+      handleRemoveClassNames();
     } else if (e.key === 'ArrowRight') {
       removeChipClass();
       if (selectedChipIndex < selectedOptions.length - 1) {
@@ -161,7 +161,15 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         setSelectedChipIndex(selectedOptions.length);
       }
     } else {
+      handleRemoveClassNames();
     }
+  };
+
+  const handleRemoveClassNames = () => {
+    removeChipClass();
+    removeOptionClass();
+    setSelectedChipIndex(-1);
+    setSelectedIndex(-1);
   };
 
   return (
@@ -171,8 +179,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       onClick={handleFocusChips}
       style={style}
       onMouseLeave={() => {
-        setSelectedIndex(-1);
-        removeOptionClass();
+        handleRemoveClassNames();
       }}
     >
       <Chips
@@ -181,11 +188,12 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         ref={inputRef}
         deleteItem={deleteItem}
         chips={selectedOptions}
-        onFocus={() => setShowResults(true)}
+        onFocus={() => setShowOptions(true)}
         loading={loading}
         disabled={disabled}
         onKeyDown={onKeyDown}
         chipsRef={setChipsElement}
+        errorMessage={errorMessage}
       />
       {options.length !== 0 && showResults && (
         <div ref={optionsRef} className={styles.options}>

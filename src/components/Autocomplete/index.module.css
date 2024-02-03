@@ -13,15 +13,6 @@
   border-color: #e5e7eb;
 }
 
-.iconLoading {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 4px;
-  width: 20px;
-  height: 22px;
-  cursor: pointer;
-}
 .options {
   position: absolute;
   left: 0;
