@@ -55,7 +55,7 @@ const Chips = forwardRef<FC, ChipsProps>(
               <input
                 onFocus={onFocus}
                 type="text"
-                placeholder={placeholder}
+                placeholder={chips.length ? '' : placeholder}
                 value={searchTerm}
                 onChange={(e) => {
                   onChange(e.target.value);
