@@ -31,3 +31,8 @@
   cursor: pointer;
   color: var(--delete-text-color);
 }
+
+.deleteButton:hover {
+  background-color: var(--delete-hover-color);
+  border: 2px solid var(--delete-hover-color);
+}
