@@ -19,6 +19,7 @@
   width: 100%;
   margin-bottom: 0.5rem;
   padding-left: 0.5rem;
+  cursor: text;
 }
 
 .wrapper:focus-within {
