@@ -1,8 +1,8 @@
 import React, { forwardRef, useRef } from 'react';
 import type { FC, ReactNode } from 'react';
 import styles from './index.module.css';
-import LoadingIcon from '../../icons/LoadingIcon';
-import { mergeRefs } from '../../utils';
+import LoadingIcon from 'src/icons/LoadingIcon';
+import { mergeRefs } from 'src/utils';
 import { OptionType } from 'src/types';
 type ChipsProps = {
   placeholder?: string;

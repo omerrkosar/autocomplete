@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import AutoComplete from './components/Autocomplete';
+import AutoComplete from 'src/components/Autocomplete';
 import { OptionType } from 'src/types';
 
 function App() {

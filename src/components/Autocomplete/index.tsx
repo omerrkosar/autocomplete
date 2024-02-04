@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import type { FC, ReactNode } from 'react';
-import useDebounce from '../../hooks/useDebounce';
+import useDebounce from 'src/hooks/useDebounce';
 import styles from './index.module.css';
-import Chips from '../Chips';
-import Option from '../Option';
+import Chips from 'src/components/Chips';
+import Option from 'src/components/Option';
 import { OptionType } from 'src/types';
-import Chip from '../Chip';
+import Chip from 'src/components/Chip';
 type AutoCompleteProps = {
   disabled?: boolean;
   placeholder?: string;
