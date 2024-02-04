@@ -70,9 +70,9 @@ const AutoComplete: FC<AutoCompleteProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleClickOutside = ({ target }: MouseEvent) => {
-    assertIsNode(target);
-    if (fieldRef.current && !fieldRef.current.contains(target)) {
+  const handleClickOutside = (event: MouseEvent) => {
+    assertIsNode(event.target);
+    if (fieldRef.current && !fieldRef.current.contains(event.target)) {
       setShowOptions(false);
     }
   };
