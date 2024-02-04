@@ -1,24 +1,8 @@
 import React, { useState } from 'react';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import styles from './index.module.css';
 import LoadingIcon from 'src/icons/LoadingIcon';
-import { OptionType } from 'src/types';
-type ChipsProps = {
-  placeholder?: string;
-  disabled?: boolean;
-  loading?: boolean;
-  onFocus?: () => void;
-  chips: OptionType[];
-  unselectOption: (value: OptionType) => void;
-  searchTerm: string;
-  onChange: (searchTerm: string) => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  chipsRef: (state: HTMLDivElement) => void;
-  inputRef: (state: HTMLInputElement | null) => void;
-  errorMessage: string;
-  showOptions: boolean;
-  renderChips: (chips: OptionType[]) => ReactNode;
-};
+import { ChipsProps } from 'src/types';
 
 const Chips: FC<ChipsProps> = ({
   searchTerm,

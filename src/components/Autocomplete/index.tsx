@@ -1,32 +1,18 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import useDebounce from 'src/hooks/useDebounce';
 import styles from './index.module.css';
 import Chips from 'src/components/Chips';
 import Option from 'src/components/Option';
-import { OptionType } from 'src/types';
+import { OptionType, AutoCompleteProps } from 'src/types';
 import Chip from 'src/components/Chip';
 import { assertIsNode } from 'src/utils';
-type AutoCompleteProps = {
-  disabled?: boolean;
-  placeholder?: string;
-  loading?: boolean;
-  getSearchResults: (searchTerm: string) => void;
-  options: OptionType[];
-  style: React.CSSProperties;
-  errorMessage: string;
-  selectedOptions: OptionType[];
-  onSelect: (option: OptionType, checked: boolean) => void;
-  renderChips?: (chips: OptionType[]) => ReactNode;
-  renderOptions?: (chips: OptionType[]) => ReactNode;
-  className?: string;
-};
 
 const AutoComplete: FC<AutoCompleteProps> = ({
   className = '',
   placeholder = '',
   style,
-  getSearchResults,
+  getOptions,
   options,
   disabled = false,
   loading = false,
@@ -98,7 +84,13 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   };
 
   useEffect(() => {
-    getSearchResults(debouncedText);
+    const controller = new AbortController();
+
+    getOptions(debouncedText, controller);
+
+    return () => {
+      controller.abort();
+    };
   }, [debouncedText]);
 
   const removeOptionClass = () => {

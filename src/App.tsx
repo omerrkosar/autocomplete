@@ -1,13 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import AutoComplete from 'src/components/Autocomplete';
-import { OptionType } from 'src/types';
-
-type SearchResult = {
-  id: number;
-  name: string;
-  image: string;
-  episode: string[];
-};
+import { OptionType, SearchResult } from 'src/types';
 
 function App() {
   const [options, setOptions] = useState<OptionType[]>([]);
@@ -31,9 +24,9 @@ function App() {
     }
   };
 
-  const getSearchResults = useCallback((searchTerm: string) => {
+  const getOptions = useCallback((searchTerm: string, controller: AbortController) => {
     setLoading(true);
-    fetch(`https://rickandmortyapi.com/api/character?name=${searchTerm}`)
+    fetch(`https://rickandmortyapi.com/api/character?name=${searchTerm}`, { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -61,7 +54,7 @@ function App() {
         errorMessage={errorMessage}
         style={{ width: '80%' }}
         options={options}
-        getSearchResults={getSearchResults}
+        getOptions={getOptions}
         loading={loading}
         onSelect={onSelect}
         selectedOptions={selectedOptions}

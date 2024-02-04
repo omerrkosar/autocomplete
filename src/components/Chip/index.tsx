@@ -1,11 +1,7 @@
 import type { FC } from 'react';
 import styles from './index.module.css';
 
-import { OptionType } from 'src/types';
-type ChipProps = {
-  chip: OptionType;
-  unselectOption: (option: OptionType) => void;
-};
+import { ChipProps } from 'src/types';
 
 const Chip: FC<ChipProps> = ({ chip, unselectOption }) => {
   return (

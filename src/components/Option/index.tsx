@@ -1,15 +1,6 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import styles from './index.module.css';
-import { OptionType } from 'src/types';
-
-type OptionProps = {
-  option: OptionType;
-  label: string | ReactNode;
-  checked: boolean;
-  onClick: (checked: boolean) => void;
-  onMouseEnter?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  onMouseLeave?: (e: React.MouseEvent<HTMLDivElement>) => void;
-};
+import { OptionProps } from 'src/types';
 
 const getEpisodeLabel = (episodeCount: number) => {
   if (episodeCount === 1 || episodeCount === 0) {
