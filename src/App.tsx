@@ -2,6 +2,13 @@ import React, { useState, useCallback } from 'react';
 import AutoComplete from 'src/components/Autocomplete';
 import { OptionType } from 'src/types';
 
+type SearchResult = {
+  id: number;
+  name: string;
+  image: string;
+  episode: string[];
+};
+
 function App() {
   const [options, setOptions] = useState<OptionType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,7 +42,7 @@ function App() {
         } else {
           setErrorMessage('');
           setOptions(
-            data.results.map((item: any) => {
+            data.results.map((item: SearchResult) => {
               return { value: item.id, label: item.name, image: item.image, episodeCount: item.episode.length };
             })
           );

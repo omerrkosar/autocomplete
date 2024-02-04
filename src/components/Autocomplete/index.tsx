@@ -6,6 +6,7 @@ import Chips from 'src/components/Chips';
 import Option from 'src/components/Option';
 import { OptionType } from 'src/types';
 import Chip from 'src/components/Chip';
+import { assertIsNode } from 'src/utils';
 type AutoCompleteProps = {
   disabled?: boolean;
   placeholder?: string;
@@ -42,7 +43,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [selectedChipIndex, setSelectedChipIndex] = useState<number>(-1);
   const [chipsElement, setChipsElement] = useState<HTMLDivElement | null>(null);
-  const inputRef = useRef<any>(null);
+  const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
   const optionsRef = useRef<HTMLDivElement>(null);
 
   const defaultRenderChips = useCallback(
@@ -83,15 +84,16 @@ const AutoComplete: FC<AutoCompleteProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleClickOutside = (event: any) => {
-    if (fieldRef.current && !fieldRef.current.contains(event.target)) {
+  const handleClickOutside = ({ target }: MouseEvent) => {
+    assertIsNode(target);
+    if (fieldRef.current && !fieldRef.current.contains(target)) {
       setShowOptions(false);
     }
   };
 
   const handleFocusChips = () => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+    if (inputElement) {
+      inputElement.focus();
     }
   };
 
@@ -167,8 +169,8 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       if (currentItem) {
         currentItem.click();
       }
-    } else if (e.key === 'Escape' && inputRef.current) {
-      inputRef.current.blur();
+    } else if (e.key === 'Escape' && inputElement) {
+      inputElement.blur();
       setShowOptions(false);
       handleRemoveClassNames();
     } else if (e.key === 'ArrowRight' && !searchTerm) {
@@ -212,7 +214,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       <Chips
         searchTerm={searchTerm}
         onChange={setSearchTerm}
-        ref={inputRef}
+        inputRef={setInputElement}
         unselectOption={(option) => onSelect(option, false)}
         chips={selectedOptions}
         onFocus={() => setShowOptions(true)}
