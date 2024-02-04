@@ -34,14 +34,14 @@ const AutoComplete: FC<AutoCompleteProps> = ({
 
   const defaultRenderChips = useCallback(
     (chips: OptionType[]) => {
-      return chips.map((chip, index) => <Chip key={index} chip={chip} unselectOption={() => onSelect(chip, false)} />);
+      return chips.map((chip) => <Chip key={chip.value} chip={chip} unselectOption={() => onSelect(chip, false)} />);
     },
     [onSelect]
   );
 
   const defaultRenderOptions = useCallback(
     (options: OptionType[]) => {
-      return options.map((option, index) => {
+      return options.map((option) => {
         const indexOfSearchTerm = option.label.toLowerCase().indexOf(debouncedText.toLowerCase());
 
         const label = (
@@ -53,7 +53,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         );
         return (
           <Option
-            key={index}
+            key={option.value}
             option={option}
             label={label}
             checked={!!selectedOptions.find((item) => item.value === option.value)}
