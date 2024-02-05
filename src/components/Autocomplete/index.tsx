@@ -8,6 +8,18 @@ import { OptionType, AutoCompleteProps } from 'src/types';
 import Chip from 'src/components/Chip';
 import { assertIsNode } from 'src/utils';
 
+const getOptionLabel = (option: OptionType, searchTerm: string) => {
+  const indexOfSearchTerm = option.label.toLowerCase().indexOf(searchTerm.toLowerCase());
+  const label = (
+    <p className={styles.label}>
+      {option.label.substring(0, indexOfSearchTerm)}
+      <b>{option.label.substring(indexOfSearchTerm, indexOfSearchTerm + searchTerm.length)}</b>
+      {option.label.substring(indexOfSearchTerm + searchTerm.length, option.label.length)}
+    </p>
+  );
+  return label;
+};
+
 const AutoComplete: FC<AutoCompleteProps> = ({
   className = '',
   placeholder = '',
@@ -42,15 +54,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   const defaultRenderOptions = useCallback(
     (options: OptionType[]) => {
       return options.map((option) => {
-        const indexOfSearchTerm = option.label.toLowerCase().indexOf(debouncedText.toLowerCase());
-
-        const label = (
-          <p className={styles.label}>
-            {option.label.substring(0, indexOfSearchTerm)}
-            <b>{option.label.substring(indexOfSearchTerm, indexOfSearchTerm + debouncedText.length)}</b>
-            {option.label.substring(indexOfSearchTerm + debouncedText.length, option.label.length)}
-          </p>
-        );
+        const label = getOptionLabel(option, debouncedText);
         return (
           <Option
             key={option.value}
