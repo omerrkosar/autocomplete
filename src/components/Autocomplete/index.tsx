@@ -144,7 +144,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       onSelect(selectedOptions[selectedOptions.length - 1], false);
       handleFocusChips();
       handleRemoveClassNames();
-    } else if (e.key === 'ArrowDown' || e.key === 'Tab') {
+    } else if (e.key === 'ArrowDown') {
       removeOptionClass();
       if (selectedIndex < options.length - 1) {
         addOptionClass(selectedIndex + 1);
