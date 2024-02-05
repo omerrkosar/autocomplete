@@ -8,9 +8,9 @@ test('Add and Remove Option', async () => {
   render(<App />);
   // ACT
   userEvent.click(screen.getByPlaceholderText('Select...'));
-  await screen.findByText('Rick Sanchez');
+  await screen.findAllByRole('img');
 
-  userEvent.click(screen.getByText('Rick Sanchez'));
+  userEvent.click(screen.getAllByRole('img')[0]);
   expect(screen.queryAllByRole('button')).toHaveLength(1);
   userEvent.keyboard('{Backspace}');
   expect(screen.queryAllByRole('button')).toHaveLength(0);
@@ -24,7 +24,7 @@ test('Keyboard Test', async () => {
   render(<App />);
   // ACT
   userEvent.click(screen.getByPlaceholderText('Select...'));
-  await screen.findByText('Rick Sanchez');
+  await screen.findAllByRole('img');
 
   userEvent.keyboard('{ArrowDown}');
   userEvent.keyboard('{ArrowDown}');
@@ -65,7 +65,7 @@ test('Click Checkbox', async () => {
   render(<App />);
   // ACT
   userEvent.click(screen.getByPlaceholderText('Select...'));
-  await screen.findByText('Rick Sanchez');
+  await screen.findAllByRole('img');
 
   userEvent.click(screen.getAllByRole('checkbox')[0]);
   expect(screen.queryAllByRole('button')).toHaveLength(1);
