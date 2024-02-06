@@ -32,8 +32,9 @@ export type ChipsProps = {
   chipsRef: (state: HTMLDivElement) => void;
   inputRef: (state: HTMLInputElement | null) => void;
   errorMessage: string;
-  showOptions: boolean;
-  renderChips: (chips: OptionType[]) => ReactNode;
+  renderChips?: (chips: OptionType[]) => ReactNode;
+  rightIcon?: ReactNode;
+  loadingIcon?: ReactNode;
 };
 
 export type OptionProps = {

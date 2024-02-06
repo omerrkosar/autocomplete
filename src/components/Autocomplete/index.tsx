@@ -5,8 +5,9 @@ import styles from './index.module.css';
 import Chips from 'src/components/Chips';
 import Option from 'src/components/Option';
 import { OptionType, AutoCompleteProps } from 'src/types';
-import Chip from 'src/components/Chip';
 import { assertIsNode } from 'src/utils';
+import ArrowDown from 'src/icons/ArrowDown';
+import ArrowUp from 'src/icons/ArrowUp';
 
 const getOptionLabel = (option: OptionType, searchTerm: string) => {
   const indexOfSearchTerm = option.label.toLowerCase().indexOf(searchTerm.toLowerCase());
@@ -43,13 +44,6 @@ const AutoComplete: FC<AutoCompleteProps> = ({
   const [chipsElement, setChipsElement] = useState<HTMLDivElement | null>(null);
   const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
   const optionsRef = useRef<HTMLDivElement>(null);
-
-  const defaultRenderChips = useCallback(
-    (chips: OptionType[]) => {
-      return chips.map((chip) => <Chip key={chip.value} chip={chip} unselectOption={() => onSelect(chip, false)} />);
-    },
-    [onSelect]
-  );
 
   const defaultRenderOptions = useCallback(
     (options: OptionType[]) => {
@@ -219,9 +213,9 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         onKeyDown={onKeyDown}
         chipsRef={setChipsElement}
         errorMessage={errorMessage}
-        showOptions={showOptions}
         placeholder={placeholder}
-        renderChips={renderChips ? renderChips : defaultRenderChips}
+        renderChips={renderChips}
+        rightIcon={showOptions ? <ArrowDown /> : <ArrowUp />}
       />
       {options.length !== 0 && showOptions && (
         <div ref={optionsRef} className={styles.options}>

@@ -1,0 +1,11 @@
+.arrowUp {
+  width: 0;
+  height: 0;
+  border-left: 0.4rem solid transparent;
+  border-right: 0.4rem solid transparent;
+  border-bottom: 0.4rem solid #475569;
+  position: absolute;
+  bottom: 0rem;
+  right: 0.5rem;
+  cursor: pointer;
+}
