@@ -205,7 +205,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
         searchTerm={searchTerm}
         onChange={setSearchTerm}
         inputRef={setInputElement}
-        unselectOption={(option) => onSelect(option, false)}
+        removeChip={(option) => onSelect(option, false)}
         chips={selectedOptions}
         onFocus={() => setShowOptions(true)}
         loading={loading}

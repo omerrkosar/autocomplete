@@ -5,7 +5,7 @@
   border-right: 0.4rem solid transparent;
   border-bottom: 0.4rem solid #475569;
   position: absolute;
-  bottom: 0rem;
+  bottom: 0.1rem;
   right: 0.5rem;
   cursor: pointer;
 }

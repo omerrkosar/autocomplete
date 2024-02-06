@@ -16,7 +16,7 @@ export type SearchResult = {
 
 export type ChipProps = {
   chip: OptionType;
-  unselectOption: (option: OptionType) => void;
+  removeChip: (option: OptionType) => void;
 };
 
 export type ChipsProps = {
@@ -25,7 +25,7 @@ export type ChipsProps = {
   loading?: boolean;
   onFocus?: () => void;
   chips: OptionType[];
-  unselectOption: (value: OptionType) => void;
+  removeChip: (value: OptionType) => void;
   searchTerm: string;
   onChange: (searchTerm: string) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;

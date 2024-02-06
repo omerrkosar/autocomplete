@@ -8,7 +8,7 @@ function App() {
   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const unselectOption = (option: OptionType) => {
+  const removeChip = (option: OptionType) => {
     setSelectedOptions((state) => state.filter((item) => item.value !== option.value));
   };
 
@@ -20,7 +20,7 @@ function App() {
     if (checked) {
       selectOption(option);
     } else {
-      unselectOption(option);
+      removeChip(option);
     }
   };
 

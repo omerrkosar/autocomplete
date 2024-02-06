@@ -9,7 +9,7 @@ const Chips: FC<ChipsProps> = ({
   searchTerm,
   onChange,
   onKeyDown,
-  unselectOption,
+  removeChip,
   chips,
   chipsRef,
   placeholder = '',
@@ -32,9 +32,9 @@ const Chips: FC<ChipsProps> = ({
 
   const defaultRenderChips = useCallback(
     (chips: OptionType[]) => {
-      return chips.map((chip) => <Chip key={chip.value} chip={chip} unselectOption={() => unselectOption(chip)} />);
+      return chips.map((chip) => <Chip key={chip.value} chip={chip} removeChip={() => removeChip(chip)} />);
     },
-    [unselectOption]
+    [removeChip]
   );
 
   return (
