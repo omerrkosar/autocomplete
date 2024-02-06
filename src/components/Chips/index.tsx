@@ -6,7 +6,7 @@ import Chip from 'src/components/Chip';
 import { ChipsProps, OptionType } from 'src/types';
 
 const Chips: FC<ChipsProps> = ({
-  searchTerm,
+  inputValue,
   onChange,
   onKeyDown,
   removeChip,
@@ -47,7 +47,7 @@ const Chips: FC<ChipsProps> = ({
               onFocus={onFocus}
               type="text"
               placeholder={chips.length ? '' : placeholder}
-              value={searchTerm}
+              value={inputValue}
               onChange={(e) => {
                 onChange(e.target.value);
               }}
@@ -55,7 +55,7 @@ const Chips: FC<ChipsProps> = ({
               className={styles.input}
               ref={(ref) => {
                 setInputElement(ref);
-                inputRef(ref);
+                inputRef && inputRef(ref);
               }}
               onKeyDown={onKeyDown}
             />

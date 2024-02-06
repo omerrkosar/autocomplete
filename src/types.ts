@@ -26,12 +26,12 @@ export type ChipsProps = {
   onFocus?: () => void;
   chips: OptionType[];
   removeChip: (value: OptionType) => void;
-  searchTerm: string;
-  onChange: (searchTerm: string) => void;
+  inputValue: string;
+  onChange: (inputValue: string) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  chipsRef: (state: HTMLDivElement) => void;
-  inputRef: (state: HTMLInputElement | null) => void;
-  errorMessage: string;
+  chipsRef?: (state: HTMLDivElement) => void;
+  inputRef?: (state: HTMLInputElement | null) => void;
+  errorMessage?: string;
   renderChips?: (chips: OptionType[]) => ReactNode;
   rightIcon?: ReactNode;
   loadingIcon?: ReactNode;

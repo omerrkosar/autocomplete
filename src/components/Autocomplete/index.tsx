@@ -202,7 +202,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({
       }}
     >
       <Chips
-        searchTerm={searchTerm}
+        inputValue={searchTerm}
         onChange={setSearchTerm}
         inputRef={setInputElement}
         removeChip={(option) => onSelect(option, false)}
